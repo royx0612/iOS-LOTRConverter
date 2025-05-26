@@ -40,8 +40,6 @@ struct ContentView: View {
                     .font(.largeTitle)
                     .foregroundStyle(.white)
 
-                    
-                
                 // HStack
                 HStack{
                     // left conversion
@@ -96,7 +94,6 @@ struct ContentView: View {
                 .clipShape(.capsule)
                 
                 Spacer()
-                
                         
                 // Info Button
                 HStack {
