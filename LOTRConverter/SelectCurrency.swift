@@ -19,31 +19,20 @@ struct SelectCurrency: View {
             VStack{
                 // text
                 Text("請選擇要來源貨幣")
+                    .foregroundStyle(.black)
                     .bold()
                 
                 // icons
-                ZStack(alignment: .bottom) {
-                    Image(.copperpenny)
-                        .resizable()
-                        .scaledToFit()
-                    
-                    Text("銅幣")
-                        .padding(3)
-                        .font(.caption)
-                        .frame(maxWidth: .infinity)
-                        .background(.brown.opacity(0.75))
-                    
+                LazyVGrid(columns: [GridItem(), GridItem(), GridItem()]){
+                    ForEach(CurrencyEnum.allCases){ currency in
+                        CurrencyItemView(imageResource: currency.image, name: currency.name)
+                    }
                 }
-                .frame(width: 100, height: 100)
-                .padding(3)
-                .background(.brown)
-                .clipShape(.rect(cornerRadius: 20))
-                
-                
-                
+
                 
                 // text
                 Text("請輸入要目的貨幣")
+                    .foregroundStyle(.black)
                 
                 // icons
                 
@@ -58,3 +47,5 @@ struct SelectCurrency: View {
 #Preview {
     SelectCurrency()
 }
+
+
