@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
     // Info switcher
     @State var showExchangeInfo:Bool = false
-    
+    @State var showSelectCurrent:Bool = false
     // rate
     @State var goldToSliverRate: Double = 5.0
     
@@ -19,6 +19,10 @@ struct ContentView: View {
     
     // right amount
     @State var rightAmount: String = ""
+    
+    @State var leftCurrency:CurrencyEnum = .silverPiece
+    
+    @State var rightCurrency:CurrencyEnum = .goldPiece
     
     
     var body: some View {
@@ -47,16 +51,20 @@ struct ContentView: View {
                         // currency
                         HStack{
                             // currency image
-                            Image(.silverpenny)
+                            Image(leftCurrency.image)
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width:30)
                             
                             //currency text
-                            Text("銀幣")
+                            Text(leftCurrency.name)
                                 .font(.headline)
                                 .foregroundStyle(.white)
                         }
+                        .onTapGesture {
+                            showSelectCurrent = true
+                        }
+                        
                         TextField("銀幣輸入", text: $leftAmount)
                             .textFieldStyle(.roundedBorder)
                             .padding(.top, -5)
@@ -73,16 +81,20 @@ struct ContentView: View {
                         // currency
                         HStack{
                             // currency image
-                            Image(.goldpenny)
+                            Image(rightCurrency.image)
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width:30)
                             
                             //currency text
-                            Text("金幣")
+                            Text(rightCurrency.name)
                                 .font(.headline)
                                 .foregroundStyle(.white)
                         }
+                        .onTapGesture {
+                            showSelectCurrent = true
+                        }
+                        
                         TextField("金幣兌換結果", text: $rightAmount)
                             .textFieldStyle(.roundedBorder)
                             .multilineTextAlignment(.trailing)
@@ -110,6 +122,9 @@ struct ContentView: View {
             }
             .sheet(isPresented: $showExchangeInfo){
                 ExchangeInfoView()
+            }
+            .sheet(isPresented: $showSelectCurrent){
+                SelectCurrencyView(sourceCurrency: $leftCurrency, targetCurrency: $rightCurrency)
             }
 //            .border(.blue)
         }

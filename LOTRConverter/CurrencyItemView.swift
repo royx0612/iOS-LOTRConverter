@@ -26,7 +26,7 @@ struct CurrencyItemView: View {
         .frame(width: 100, height: 100)
         .padding(3)
         .background(.brown)
-        .clipShape(.rect(cornerRadius: 20))
+        .clipShape(.rect(cornerRadius: 25))
     }
 }
 
