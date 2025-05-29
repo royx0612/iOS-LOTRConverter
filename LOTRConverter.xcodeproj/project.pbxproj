@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		A3FE13622DE40016009239FA /* LOTRConverter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LOTRConverter.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A3FE13622DE40016009239FA /* LOTRConverter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = LOTRConverter.app; path = "/Users/royxlu/Desktop/Projects/Swift/LOTRConverter/build/Debug-iphoneos/LOTRConverter.app"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -33,16 +33,7 @@
 			isa = PBXGroup;
 			children = (
 				A3FE13642DE40016009239FA /* LOTRConverter */,
-				A3FE13632DE40016009239FA /* Products */,
 			);
-			sourceTree = "<group>";
-		};
-		A3FE13632DE40016009239FA /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				A3FE13622DE40016009239FA /* LOTRConverter.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -95,7 +86,7 @@
 			mainGroup = A3FE13592DE40016009239FA;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = A3FE13632DE40016009239FA /* Products */;
+			productRefGroup = A3FE13592DE40016009239FA;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
