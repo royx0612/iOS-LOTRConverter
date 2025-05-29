@@ -15,15 +15,19 @@ struct ContentView: View {
     @State var goldToSliverRate: Double = 5.0
     
     // left amount
-    @State var leftAmount: String = ""
+    @AppStorage("leftAmount") var leftAmount: String = ""
     
     // right amount
-    @State var rightAmount: String = ""
+    @AppStorage("rightAmount") var rightAmount: String = ""
     
-    @State var leftCurrency:CurrencyEnum = .silverPiece
+    @AppStorage("leftCurreny") var leftCurrency:CurrencyEnum = .copperPenny
     
-    @State var rightCurrency:CurrencyEnum = .goldPiece
+    @AppStorage("rightCurreny") var rightCurrency:CurrencyEnum = .goldPiece
     
+    @FocusState var leftFocusState: Bool
+    @FocusState var rightFocusState: Bool
+    
+    let currencyTip = CurrencyTip()
     
     var body: some View {
         ZStack{
@@ -47,28 +51,7 @@ struct ContentView: View {
                 // HStack
                 HStack{
                     // left conversion
-                    VStack{
-                        // currency
-                        HStack{
-                            // currency image
-                            Image(leftCurrency.image)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width:30)
-                            
-                            //currency text
-                            Text(leftCurrency.name)
-                                .font(.headline)
-                                .foregroundStyle(.white)
-                        }
-                        .onTapGesture {
-                            showSelectCurrent = true
-                        }
-                        
-                        TextField("銀幣輸入", text: $leftAmount)
-                            .textFieldStyle(.roundedBorder)
-                            .padding(.top, -5)
-                    }
+                    CurrencyComponentView(amount: $leftAmount, currency: $leftCurrency, showSelectCurrent: $showSelectCurrent, focusState: $leftFocusState)
                     
                     // equal sign
                     Image(systemName: "equal")
@@ -79,31 +62,13 @@ struct ContentView: View {
                     // righr conversion
                     VStack{
                         // currency
-                        HStack{
-                            // currency image
-                            Image(rightCurrency.image)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width:30)
-                            
-                            //currency text
-                            Text(rightCurrency.name)
-                                .font(.headline)
-                                .foregroundStyle(.white)
-                        }
-                        .onTapGesture {
-                            showSelectCurrent = true
-                        }
-                        
-                        TextField("金幣兌換結果", text: $rightAmount)
-                            .textFieldStyle(.roundedBorder)
-                            .multilineTextAlignment(.trailing)
-                            .padding(.top, -5)
+                        CurrencyComponentView(amount: $rightAmount, currency: $rightCurrency, showSelectCurrent: $showSelectCurrent, focusState: $rightFocusState)
                     }
                 }
                 .padding()
                 .background(.black.opacity(0.5))
                 .clipShape(.capsule)
+
                 
                 Spacer()
                         
@@ -120,6 +85,22 @@ struct ContentView: View {
                     }
                 }
             }
+            .onChange(of: leftCurrency){
+                leftAmount = rightCurrency.convert(rightAmount, to: leftCurrency)
+            }
+            .onChange(of: rightCurrency){
+                rightAmount = leftCurrency.convert(leftAmount, to: rightCurrency)
+            }
+            .onChange(of: leftAmount){
+                if leftFocusState{
+                    rightAmount = leftCurrency.convert(leftAmount, to: rightCurrency)
+                }
+            }
+            .onChange(of: rightAmount){
+                if rightFocusState{
+                    leftAmount = rightCurrency.convert(rightAmount, to: leftCurrency)
+                }
+            }
             .sheet(isPresented: $showExchangeInfo){
                 ExchangeInfoView()
             }
@@ -128,9 +109,15 @@ struct ContentView: View {
             }
 //            .border(.blue)
         }
+        .onTapGesture{
+            print("Close Foucus")
+            leftFocusState = false
+            rightFocusState = false
+        }
     }
 }
 
 #Preview {
     ContentView()
 }
+

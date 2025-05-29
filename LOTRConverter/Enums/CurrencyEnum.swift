@@ -7,14 +7,15 @@
 
 import SwiftUI
 
-enum CurrencyEnum: Double, CaseIterable, Identifiable{
+enum CurrencyEnum: String, CaseIterable, Identifiable{
     var id : CurrencyEnum { self }
     
-    case copperPenny = 6400
-    case silverPenny = 64
-    case silverPiece = 16
-    case goldPenny = 4
-    case goldPiece = 1
+    case copperPenny = ".copperpenny"
+    case silverPenny = "silverpenny"
+    case silverPiece = "silverpiece"
+    case goldPenny = "goldpenny"
+    case goldPiece = "goldpiece"
+    case ntd1000 = "ntd1000"
     
     var image: ImageResource{
         switch self {
@@ -28,6 +29,25 @@ enum CurrencyEnum: Double, CaseIterable, Identifiable{
                 .goldpenny
         case .goldPiece:
                 .goldpiece
+        case .ntd1000:
+                .ntd1000
+        }
+    }
+    
+    var rate: Double{
+        switch self {
+        case .copperPenny:
+            25600
+        case .silverPenny:
+            256
+        case .silverPiece:
+            64
+        case .goldPenny:
+            14
+        case .goldPiece:
+            4
+        case .ntd1000:
+            1
         }
     }
     
@@ -43,14 +63,15 @@ enum CurrencyEnum: Double, CaseIterable, Identifiable{
             return "金錢"
         case .goldPiece:
             return "金幣"
+        case .ntd1000:
+            return "新台幣 1000"
         }
     }
     
-    func convert(amount: String, currency: CurrencyEnum) -> String {
+    func convert(_ amount: String, to currency: CurrencyEnum) -> String {
         guard let doubleAmount = Double(amount) else {
             return ""
         }
-        
-        return String(format: "%.2f", doubleAmount / self.rawValue * currency.rawValue)
+        return String(format: "%.2f", doubleAmount / self.rate * currency.rate).replacingOccurrences(of: #"\.?0+$"#, with: "", options: .regularExpression)
     }
 }
